@@ -1,13 +1,13 @@
 # 🍄 Mushroom Classification Project (Shrooms) 🍄
 
-This project aims to collect, clean, and analyze data scraped from [rogersmushrooms.com](https://rogersmushrooms.com) in order to build a dataset of mushrooms annotated by edibility status (edible vs poisonous). Various machine learning models are trained and compared based on textual descriptions of mushrooms.
+This project aims to collect, clean, and analyze data scraped from [rogersmushrooms.com](https://rogersmushrooms.com) in order to build a dataset of mushrooms annotated by edibility status (edible vs poisonous).
 
 ---
 
 ## 📌 Objectives
 
 - Scrape mushroom pages from Rogers Mushrooms
-- Extract scientific names and edibility labels
+- Extract scientific names, descriptions and edibility labels
 - Clean and normalize the data
 - Generate a labeled dataset: `edible` vs `poisonous`
 - Retrieve mushroom descriptions from Wikipedia
@@ -61,5 +61,5 @@ lxml
 
 ## ✍️ Authors
 
-- Sébastien DURNA
-- Manon MOULIN
+- [Sébastien DURNA](https://github.com/Seeeb3)
+- [Manon MOULIN]

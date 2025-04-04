@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import time
 
 # Charger le CSV existant
-df = pd.read_csv("champignons_binary.csv")
+df = pd.read_csv("data/clean/champignons_binary.csv")
 
 # Résultats
 descriptions = []
@@ -56,7 +56,7 @@ for i, row in df.iterrows():
 
 # Export CSV des descriptions trouvées
 df_out = pd.DataFrame(descriptions)
-df_out.to_csv("champignons_with_description.csv", index=False)
+df_out.to_csv("data/clean/champignons_with_description.csv", index=False)
 print("\nDescriptions sauvegardées dans champignons_with_description.csv")
 
 # Affichage des non trouvés

@@ -2,7 +2,7 @@ import pandas as pd
 import json
 
 # Charger le CSV binaire
-df = pd.read_csv("/data/clean/champignons_binary.csv")
+df = pd.read_csv("data/clean/champignons_binary.csv")
 
 # Construire le dictionnaire
 mushroom_dict = dict(zip(df["name"], df["edibility_binary"]))
@@ -15,7 +15,7 @@ for i, (name, label) in enumerate(mushroom_dict.items()):
         break
 
 # Export en JSON
-with open("/data/dict/champignons_dict.json", "w", encoding="utf-8") as f:
+with open("data/dict/champignons_dict.json", "w", encoding="utf-8") as f:
     json.dump(mushroom_dict, f, indent=2, ensure_ascii=False)
 
 print("\nDictionnaire exporté dans champignons_dict.json")

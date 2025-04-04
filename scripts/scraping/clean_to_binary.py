@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Charger le fichier nettoyé
-df = pd.read_csv("/data/clean/champignons_AZ_clean.csv")
+df = pd.read_csv("data/clean/champignons_AZ_clean.csv")
 
 # Supprimer les lignes où edibility_raw est NaN
 df = df.dropna(subset=["edibility_raw"])
@@ -27,5 +27,5 @@ df["edibility_binary"] = df["edibility_raw"].apply(to_binary_label)
 df = df.dropna(subset=["edibility_binary"])
 
 # Sauvegarde
-df.to_csv("/data/clean/champignons_binary.csv", index=False)
+df.to_csv("data/clean/champignons_binary.csv", index=False)
 print("Fichier nettoyé et binaire sauvegardé sous champignons_binary.csv")
