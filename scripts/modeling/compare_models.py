@@ -13,12 +13,28 @@ vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
 models = {
     "XGBoost (Default)": joblib.load("models/xgboost_default.pkl"),
     "XGBoost (Tuned)": joblib.load("models/xgboost_tuned.pkl"),
-    "Random Forest (Default)": joblib.load("models/random_forest_default.pkl"),
-    "Random Forest (Tuned)": joblib.load("models/random_forest_tuned.pkl"),
-    "SVM (Default)": joblib.load("models/svm_default.pkl"),
-    "SVM (Tuned)": joblib.load("models/svm_tuned.pkl"),
-    "Naive Bayes (Default)": joblib.load("models/naive_bayes_default.pkl"),
-    "Naive Bayes (Tuned)": joblib.load("models/naive_bayes_tuned.pkl")
+    "RandomForest (Default)": joblib.load("models/random_forest_default.pkl"),
+    "RandomForest (Tuned)": joblib.load("models/random_forest_tuned.pkl"),
+    "SVM (Default)": joblib.load("models/svc_default.pkl"),
+    "SVM (Tuned)": joblib.load("models/svc_tuned.pkl"),
+    "NB Multinomial (Default) fit_prior=false": joblib.load("models/naive_bayes_multinomialnb_(fit_prior=false)_(default).pkl"),
+    "NB Complement (Default) fit_prior=false": joblib.load("models/naive_bayes_complementnb_(fit_prior=false)_(default).pkl"),
+    "NB Bernoulli (Default) fit_prior=false": joblib.load("models/naive_bayes_bernoullinb_(fit_prior=false)_(default).pkl"),
+    "NB Multinomial (Tuned) fit_prior=false": joblib.load("models/naive_bayes_multinomialnb_(fit_prior=false)_(tuned).pkl"),
+    "NB Complement (Tuned) fit_prior=false": joblib.load("models/naive_bayes_complementnb_(fit_prior=false)_(tuned).pkl"),
+    "NB Bernoulli (Tuned) fit_prior=false": joblib.load("models/naive_bayes_bernoullinb_(fit_prior=false)_(tuned).pkl"),
+    "NB Multinomial (Default) fit_prior=true": joblib.load("models/naive_bayes_multinomialnb_(fit_prior=true)_(default).pkl"),
+    "NB Complement (Default) fit_prior=true": joblib.load("models/naive_bayes_complementnb_(fit_prior=true)_(default).pkl"),
+    "NB Bernoulli (Default) fit_prior=true": joblib.load("models/naive_bayes_bernoullinb_(fit_prior=true)_(default).pkl"),
+    "NB Multinomial (Tuned) fit_prior=true": joblib.load("models/naive_bayes_multinomialnb_(fit_prior=true)_(tuned).pkl"),
+    "NB Complement (Tuned) fit_prior=true": joblib.load("models/naive_bayes_complementnb_(fit_prior=true)_(tuned).pkl"),
+    "NB Bernoulli (Tuned) fit_prior=true": joblib.load("models/naive_bayes_bernoullinb_(fit_prior=true)_(tuned).pkl"),
+    "LogisticRegression (Default)": joblib.load("models/logistic_regression_default.pkl"),
+    "LogisticRegression (Tuned)": joblib.load("models/logistic_regression_tuned.pkl"),
+    "RidgeClassifier (Default)": joblib.load("models/ridge_classifier_default.pkl"),
+    "RidgeClassifier (Tuned)": joblib.load("models/ridge_classifier_tuned.pkl"),
+    "PassiveAggressive (Default)": joblib.load("models/passive_aggressive_default.pkl"),
+    "PassiveAggressive (Tuned)": joblib.load("models/passive_aggressive_tuned.pkl"),
 }
 
 # 2. Load and vectorize data
@@ -64,3 +80,30 @@ print(df_summary.round(4))
 os.makedirs("results", exist_ok=True)
 df_summary.to_csv("results/model_comparison.csv", index=False)
 print("\nSummary saved to results/model_comparison.csv")
+
+# 7. Plot horizontal bar chart of all models by F1-score
+def plot_bar_chart(df, metric="F1-score (macro)", output_path="results/f1_score_comparison.png"):
+    models = df["Model"]
+    scores = df[metric]
+
+    colors = plt.cm.tab20.colors
+    if len(models) > len(colors):
+        import itertools
+        colors = list(itertools.islice(itertools.cycle(colors), len(models)))
+
+    plt.figure(figsize=(16, min(0.4 * len(models) + 2, 10)))
+    bars = plt.barh(models, scores, color=colors[:len(models)])
+    plt.xlabel(metric)
+    plt.title(f"All Models by {metric}")
+    plt.gca().invert_yaxis()
+
+    for bar in bars:
+        width = bar.get_width()
+        plt.text(width + 0.01, bar.get_y() + bar.get_height() / 2, f"{width:.3f}", va="center")
+
+    plt.tight_layout()
+    plt.savefig(output_path)
+    plt.show()
+
+plot_bar_chart(df_summary)
+print("Bar chart saved to results/f1_score_comparison.png")
