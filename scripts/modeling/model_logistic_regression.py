@@ -1,12 +1,9 @@
+from imblearn.over_sampling import SMOTE
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 import pandas as pd
 import joblib
-import os
-from sklearn.model_selection import RandomizedSearchCV
-import numpy as np
-from scipy.stats import uniform
 
 # 1. Load data
 df = pd.read_csv("data/features/mushrooms_dataset.csv")
@@ -17,46 +14,26 @@ y = df["edibility_binary"].map({"edible": 1, "poisonous": 0})
 vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
 X = vectorizer.transform(X_text)
 
-
 # 3. Split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
-from sklearn.base import clone
-
-# --- Train and evaluate default model ---
+# 4. Train Logistic Regression model
+# 4.1 Train Logistic Regression with class_weight='balanced'
 default_model = LogisticRegression(max_iter=1000, random_state=42, class_weight='balanced')
+print("\nTraining Logistic Regression...")
 default_model.fit(X_train, y_train)
 y_pred_default = default_model.predict(X_test)
-print("Evaluation - Logistic Regression (Default):")
+print("\nEvaluation - Logistic Regression:\n")
 print(classification_report(y_test, y_pred_default, target_names=["poisonous", "edible"]))
-joblib.dump(default_model, "models/logistic_regression_default.pkl")
+joblib.dump(default_model, "models/logistic_regression_balanced.pkl")
 
-# --- Hyperparameter tuning ---
-param_distributions = {
-    "C": uniform(0.01, 10),
-    "penalty": ["l2"],
-    "solver": ["lbfgs", "saga"]
-}
-
-search = RandomizedSearchCV(
-    LogisticRegression(max_iter=1000, random_state=42, class_weight='balanced'),
-    param_distributions,
-    n_iter=100,
-    cv=5,
-    scoring="f1_macro",
-    verbose=1,
-    n_jobs=-1,
-    random_state=42
-)
-
-search.fit(X_train, y_train)
-tuned_model = search.best_estimator_
-print("Best parameters:")
-print(search.best_params_)
-print(f"Best F1-score: {search.best_score_:.4f}")
-
-# --- Evaluate tuned model ---
-y_pred_tuned = tuned_model.predict(X_test)
-print("Evaluation - Logistic Regression (Tuned):")
-print(classification_report(y_test, y_pred_tuned, target_names=["poisonous", "edible"]))
-joblib.dump(tuned_model, "models/logistic_regression_tuned.pkl")
+# 4.2 Train Logistic Regression with SMOTE
+smote = SMOTE(random_state=42)
+X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
+smote_model = LogisticRegression(max_iter=1000, random_state=42)
+print("\nTraining Logistic Regression with SMOTE...")
+smote_model.fit(X_train_smote, y_train_smote)
+y_pred_smote = smote_model.predict(X_test)
+print("\nEvaluation - Logistic Regression with SMOTE:\n")
+print(classification_report(y_test, y_pred_smote, target_names=["poisonous", "edible"]))
+joblib.dump(smote_model, "models/logistic_regression_SMOTE.pkl")
