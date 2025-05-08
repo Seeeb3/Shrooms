@@ -18,6 +18,15 @@ X = vectorizer.transform(X_text)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 # 4. Train Ridge Classifier
+# 4.0 Ridge Classifier default
+ridge = RidgeClassifier()
+print("\nTraining RidgeClassifier...")
+ridge.fit(X_train, y_train)
+y_pred = ridge.predict(X_test)
+print("\nEvaluation - RidgeClassifier:\n")
+print(classification_report(y_test, y_pred, target_names=["poisonous", "edible"]))
+joblib.dump(ridge, "models/ridge_classifier_default.pkl")
+
 # 4.1 Ridge Classifier with class_weight="balanced"
 ridge_balanced = RidgeClassifier(class_weight="balanced")
 print("\nTraining RidgeClassifier with class_weight='balanced'...")
