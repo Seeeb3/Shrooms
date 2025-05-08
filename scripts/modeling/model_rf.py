@@ -18,6 +18,15 @@ X = vectorizer.transform(X_text)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 # 4. Train Random Forest model
+# 4.0 Random Forest default
+rf = RandomForestClassifier(random_state=42)
+print("\nTraining Random Forest...")
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+print("\nEvaluation - Random Forest:\n")
+print(classification_report(y_test, y_pred, target_names=["poisonous", "edible"]))
+joblib.dump(rf, "models/random_forest_default.pkl")
+
 # 4.1 Random Forest with class_weight='balanced'
 rf_balanced = RandomForestClassifier(random_state=42, class_weight='balanced')
 print("\nTraining Random Forest (Balanced)...")

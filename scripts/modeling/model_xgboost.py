@@ -17,6 +17,15 @@ X = vectorizer.transform(X_text)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 # 4. Train XGBoost Classifier
+# 4.0 Train XGBoost model default
+xgb_model = XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42)
+print("\nTraining XGBoost Classifier...")
+xgb_model.fit(X_train, y_train)
+y_pred = xgb_model.predict(X_test)
+print("\nEvaluation - XGBoost Classifier:\n")
+print(classification_report(y_test, y_pred, target_names=["poisonous", "edible"]))
+joblib.dump(xgb_model, "models/xgboost_default.pkl")
+
 # 4.1 Train XGBoost model with class_weight
 xgb_model = XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42, scale_pos_weight=4.35)
 print("\nTraining XGBoost Classifier (class_weight)...")

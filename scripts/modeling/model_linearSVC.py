@@ -18,6 +18,15 @@ X = vectorizer.transform(X_text)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 # 4. Train LinearSVC
+# 4.0 Train LinearSVC default
+svc = LinearSVC(random_state=42, max_iter=10000)
+print("\nTraining LinearSVC without class_weight...")
+svc.fit(X_train, y_train)
+y_pred = svc.predict(X_test)
+print("\nEvaluation - LinearSVC without class_weight:\n")
+print(classification_report(y_test, y_pred, target_names=["poisonous", "edible"]))
+joblib.dump(svc, "models/linear_SVC_default.pkl")
+
 # 4.1 LinearSVC with class_weight="balanced"
 svc_balanced = LinearSVC(class_weight="balanced", random_state=42, max_iter=10000)
 print("\nTraining LinearSVC with class_weight='balanced'...")

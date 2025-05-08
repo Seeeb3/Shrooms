@@ -18,6 +18,15 @@ X = vectorizer.transform(X_text)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 # 4. Train Logistic Regression model
+# 4.0 Train Logistic Regression default
+logistic_model = LogisticRegression(max_iter=1000, random_state=42)
+print("\nTraining Logistic Regression without class_weight...")
+logistic_model.fit(X_train, y_train)
+y_pred = logistic_model.predict(X_test)
+print("\nEvaluation - Logistic Regression without class_weight:\n")
+print(classification_report(y_test, y_pred, target_names=["poisonous", "edible"]))
+joblib.dump(logistic_model, "models/logistic_regression_default.pkl")
+
 # 4.1 Train Logistic Regression with class_weight='balanced'
 default_model = LogisticRegression(max_iter=1000, random_state=42, class_weight='balanced')
 print("\nTraining Logistic Regression...")

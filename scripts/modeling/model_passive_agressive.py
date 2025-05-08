@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 import pandas as pd
 import joblib
-from imblearn.over_sampling import SMOTE  # Added
+from imblearn.over_sampling import SMOTE 
 
 # 1. Load data
 df = pd.read_csv("data/features/mushrooms_dataset.csv")
@@ -18,6 +18,15 @@ X = vectorizer.transform(X_text)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 # 4. Train PassiveAggressive model
+# 4.0 Train PassiveAggressive default
+model = PassiveAggressiveClassifier(max_iter=1000, random_state=42)
+print("\nTraining PassiveAggressiveClassifier...")
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print("\nEvaluation - PassiveAggressiveClassifier:\n")
+print(classification_report(y_test, y_pred, target_names=["poisonous", "edible"]))
+joblib.dump(model, "models/passive_aggressive_default.pkl")
+
 # 4.1 Train PassiveAggressive with class_weight='balanced'
 model = PassiveAggressiveClassifier(max_iter=1000, random_state=42, class_weight="balanced")
 print("\nTraining PassiveAggressiveClassifier...")
