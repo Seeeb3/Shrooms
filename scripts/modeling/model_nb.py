@@ -45,4 +45,4 @@ for model_name, model in models.items():
     y_pred = model.predict(X_test)
     print(f"\nEvaluation - {model.__class__.__name__}:\n")
     print(classification_report(y_test, y_pred, target_names=["poisonous", "edible"]))
-    joblib.dump(model, f"models/{model_name}")
+    joblib.dump(model, f"models/{model_name.replace('.pkl', '_smote.pkl')}")
