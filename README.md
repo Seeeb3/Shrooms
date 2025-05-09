@@ -14,6 +14,7 @@ This project aims to collect, clean, and analyze data scraped from [rogersmushro
 - Build a dictionary of mushroom edibility
 - Train and evaluate multiple ML classifiers
 - Compare models based on precision, recall, F1-score
+- Analyze feature importance using SHAP
 
 ---
 
@@ -54,7 +55,7 @@ lxml
 ## ⚠️ Notes
 
 - The current scraper retrieves **around ~300 mushrooms**, as many original pages are unavailable or broken on the Rogers Mushrooms site.
-- Class imbalance is handled using `class_weight` and oversampling when applicable. The Random Forest model (tuned version) is the only one trained using oversampling (via RandomOverSampler).
+- Class imbalance is handled using `class_weight` and oversampling with SMOTE when applicable.
 - All models are trained on the same fixed TF-IDF representation of the descriptions.
 
 ---
@@ -62,4 +63,4 @@ lxml
 ## ✍️ Authors
 
 - [Sébastien DURNA](https://github.com/Seeeb3)
-- [Manon MOULIN]
+- [Manon MOULIN](https://github.com/Manon09825)
