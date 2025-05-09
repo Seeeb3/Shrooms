@@ -1,0 +1,13 @@
+base_model,variant,f1_score_default,f1_score_variant,delta_f1,best_mode
+logistic_regression,SMOTE,0.4505,0.8804,0.4299,balanced
+logistic_regression,balanced,0.4505,0.8891,0.4386,balanced
+linear_SVC,SMOTE,0.7842,0.9402,0.156,SMOTE
+linear_SVC,balanced,0.7842,0.9137,0.1295,SMOTE
+ridge_classifier,SMOTE,0.6772,0.9402,0.263,SMOTE
+ridge_classifier,balanced,0.6772,0.8891,0.2119,SMOTE
+passive_aggressive,SMOTE,0.9137,0.9402,0.0265,equal
+passive_aggressive,balanced,0.9137,0.9402,0.0265,equal
+xgboost,SMOTE,0.8444,0.9445,0.1001,SMOTE
+xgboost,balanced,0.8444,0.8963,0.0519,SMOTE
+random_forest,SMOTE,0.6579,0.7123,0.0544,SMOTE
+random_forest,balanced,0.6579,0.6126,-0.0453,SMOTE
